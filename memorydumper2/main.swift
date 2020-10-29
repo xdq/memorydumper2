@@ -164,8 +164,7 @@ func objcClassName(ptr: Pointer) -> String? {
             let list = objc_copyClassList(&classCount)!
             
             var map: [Pointer: AnyClass] = [:]
-            for i in 0 ..< classCount {
-                let classObj: AnyClass = list[Int(i)]
+            UnsafeBufferPointer(start: list, count: Int(classCount)).forEach { (classObj) in
                 let classPtr = unsafeBitCast(classObj, to: Pointer.self)
                 map[classPtr] = classObj
             }
